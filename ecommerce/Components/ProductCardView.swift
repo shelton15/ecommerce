@@ -68,7 +68,7 @@ struct ProductCardView: View {
 
 struct ProductCardView_Previews: PreviewProvider {
     static var previews: some View {
-        ProductCardView(product: Product(id: 1, title: "Fjallraven - Foldsack No. 1 Backpack", price: 109.95, description: "sample description", image: "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg"))
+        ProductCardView(product: Product(id: 1, title: "", price: 109.95, category: "", description: "", image: ""))
             .environmentObject(CartManager())
     }
 }

@@ -29,6 +29,7 @@ class APICaller {
         
         let task = URLSession.shared.dataTask(with: URLRequest(url: url)) {data, _, error in
             guard let data = data, error == nil else {
+                completion(.failure(APIError.failedTogetData))
                 return
             }
             

@@ -34,7 +34,6 @@ struct CartView: View {
             
         }
         .navigationTitle(Text("My Cart"))
-        .background(Color("kPrimary"))
         .padding(.top)
         
     }

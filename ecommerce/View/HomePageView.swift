@@ -30,7 +30,7 @@ struct HomePageView: View {
                         Text("Recommended Products")
                             .font(.title2)
                             .fontWeight(.medium)
-                            .padding(.horizontal)
+                            .frame(alignment: .leading)
                         
                         
                     }
