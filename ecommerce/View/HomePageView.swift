@@ -40,7 +40,7 @@ struct HomePageView: View {
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(spacing: 10) {
                             ForEach(products, id: \.id) {product in
-                                NavigationLink(destination: Text("")) {
+                                NavigationLink(destination: ProductDetailView(product: product)) {
                                     ProductCardView(product: product)
                                         .environmentObject(cartManager)
                                 }
@@ -53,7 +53,7 @@ struct HomePageView: View {
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(spacing: 10) {
                             ForEach(products, id: \.id) {product in
-                                NavigationLink(destination: Text("")) {
+                                NavigationLink(destination: ProductDetailView(product: product)) {
                                     ProductCardView(product: product)
                                         .environmentObject(cartManager)
                                 }
