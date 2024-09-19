@@ -27,7 +27,7 @@ class APICaller {
         config.timeoutIntervalForRequest = 50.0
         let session = URLSession(configuration: config)
         
-        let task = URLSession.shared.dataTask(with: URLRequest(url: url)) {data, _, error in
+        let task = session.dataTask(with: URLRequest(url: url)) {data, _, error in
             guard let data = data, error == nil else {
                 completion(.failure(APIError.failedTogetData))
                 return

@@ -22,12 +22,19 @@ struct CartView: View {
                 }
                 
                 HStack {
-                    Text("Your Total is ")
+                    Text("Total ")
                     Spacer()
                     Text("$\(cartManager.total)")
                         .bold()
+                    Spacer()
+                    PaymentButtonView(action: {})
+                    
                 }
                 .padding()
+                
+                
+                    .padding()
+                
             } else {
                 Text("Your Cart is Empty")
             }

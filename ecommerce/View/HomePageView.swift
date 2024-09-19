@@ -30,8 +30,9 @@ struct HomePageView: View {
                         Text("Recommended Products")
                             .font(.title2)
                             .fontWeight(.medium)
-                            .frame(alignment: .leading)
+//                            .frame(alignment: .leading)
                         
+                        Spacer()
                         
                     }
                     .padding()
@@ -47,6 +48,20 @@ struct HomePageView: View {
                         }
                         .padding(.horizontal)
                     }
+                    .padding()
+                    
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(spacing: 10) {
+                            ForEach(products, id: \.id) {product in
+                                NavigationLink(destination: Text("")) {
+                                    ProductCardView(product: product)
+                                        .environmentObject(cartManager)
+                                }
+                            }
+                        }
+                        .padding(.horizontal)
+                    }
+                    
                     .onAppear {
                         fetchProducts()
                     }
