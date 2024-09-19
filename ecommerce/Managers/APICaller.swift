@@ -7,11 +7,7 @@
 
 import Foundation
 
-struct Constants {
-    
-    static let baseURL = "https://fakestoreapi.com/products"
-    
-}
+
 
 enum APIError: Error {
     
@@ -25,7 +21,11 @@ class APICaller {
     
     func getProducts(completion: @escaping (Result<[Product], Error>) -> Void) {
         
-        guard let url = URL(string: "\(Constants.baseURL)") else {return}
+        guard let url = URL(string: "https://fakestoreapi.com/products") else {return}
+        
+        let config = URLSessionConfiguration.default
+        config.timeoutIntervalForRequest = 50.0
+        let session = URLSession(configuration: config)
         
         let task = URLSession.shared.dataTask(with: URLRequest(url: url)) {data, _, error in
             guard let data = data, error == nil else {
