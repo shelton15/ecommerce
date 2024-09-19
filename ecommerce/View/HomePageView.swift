@@ -123,7 +123,7 @@ struct AppBar: View {
                     }
                 }
                 
-                Text("Hello, Tony. \nWhat product do you want today?")
+                Text("Hello, Shelton. \nWhat product do you want today?")
                     .font(.largeTitle .bold())
                 
                 
