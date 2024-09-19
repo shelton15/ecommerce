@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		881EF9372C9C2C54007E5F8B /* PaymentButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 881EF9362C9C2C50007E5F8B /* PaymentButtonView.swift */; };
 		881EF9392C9C3586007E5F8B /* ProductDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 881EF9382C9C3586007E5F8B /* ProductDetailView.swift */; };
+		881EF93B2C9C436A007E5F8B /* AddToCartButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 881EF93A2C9C436A007E5F8B /* AddToCartButtonView.swift */; };
 		8823F5632C99B86E00F7D8E5 /* HomePageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8823F5622C99B86B00F7D8E5 /* HomePageView.swift */; };
 		8823F5662C99E0BD00F7D8E5 /* APICaller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8823F5652C99E0BD00F7D8E5 /* APICaller.swift */; };
 		882A08052C98AC9500597A72 /* ecommerceApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882A08042C98AC9500597A72 /* ecommerceApp.swift */; };
@@ -29,6 +30,7 @@
 /* Begin PBXFileReference section */
 		881EF9362C9C2C50007E5F8B /* PaymentButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentButtonView.swift; sourceTree = "<group>"; };
 		881EF9382C9C3586007E5F8B /* ProductDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailView.swift; sourceTree = "<group>"; };
+		881EF93A2C9C436A007E5F8B /* AddToCartButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddToCartButtonView.swift; sourceTree = "<group>"; };
 		8823F5622C99B86B00F7D8E5 /* HomePageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePageView.swift; sourceTree = "<group>"; };
 		8823F5652C99E0BD00F7D8E5 /* APICaller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APICaller.swift; sourceTree = "<group>"; };
 		882A08012C98AC9400597A72 /* ecommerce.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ecommerce.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -134,6 +136,7 @@
 				882A08212C98FA3A00597A72 /* CartButtonView.swift */,
 				88C46EAD2C9ABCD800C01DE2 /* CartProductView.swift */,
 				881EF9362C9C2C50007E5F8B /* PaymentButtonView.swift */,
+				881EF93A2C9C436A007E5F8B /* AddToCartButtonView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -209,6 +212,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				882A080E2C98AD9800597A72 /* Persistence.swift in Sources */,
+				881EF93B2C9C436A007E5F8B /* AddToCartButtonView.swift in Sources */,
 				882A08202C98EE8200597A72 /* CartManager.swift in Sources */,
 				88C46EB02C9B013000C01DE2 /* CartView.swift in Sources */,
 				882A08072C98AC9500597A72 /* ContentView.swift in Sources */,

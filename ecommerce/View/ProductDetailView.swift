@@ -34,12 +34,6 @@ struct ProductDetailView: View {
                             }
                         }
                         
-                        Image(systemName: "heart")
-                            .resizable()
-                            .frame(width: 25, height: 25)
-                            .padding(.top, 63)
-                            .padding(.trailing, 20)
-                        
                     }
                     
                     VStack(alignment: .leading) {
@@ -49,12 +43,30 @@ struct ProductDetailView: View {
                             
                             Spacer()
                             
+                            
+                        }
+                        .padding(.vertical)
+                        
+                        Spacer()
+                        
+                        HStack {
+                            
+                            Button(action: {}, label: {
+                                Image(systemName: "minus.circle")
+                            })
+                            Text("1")
+                            Button(action: {}, label: {
+                                Image(systemName: "plus.circle.fill")
+                                    .foregroundColor(Color("kPrimary"))
+                            })
+                            .padding(.horizontal)
+                            
                             Text("$\(product.price)")
                                 .font(.title2)
                                 .fontWeight(.semibold)
                                 .padding(.horizontal)
+                            
                         }
-                        .padding(.vertical)
                         
                         HStack(spacing: 10) {
                             Text("Description")
@@ -64,6 +76,9 @@ struct ProductDetailView: View {
                             Text(product.description)
                         }
                     }
+                    
+                    AddToCartButtonView(product: product)
+                        .environmentObject(CartManager())
                     
                 }
             }
@@ -78,3 +93,17 @@ struct ProductDetailView_Previews: PreviewProvider {
         ProductDetailView(product: Product(id: 4, title: "", price: 23.3, category: "", description: "", image: ""))
     }
 }
+
+//struct ColorDotView: View {
+//
+//    let color: Color
+//
+//    var body: some View {
+//
+//        color
+//            .frame(width: 25, height: 25)
+//            .clipShape(Circle())
+//
+//    }
+//
+//}
