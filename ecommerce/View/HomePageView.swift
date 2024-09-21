@@ -46,22 +46,8 @@ struct HomePageView: View {
                                 }
                             }
                         }
-                        .padding(.horizontal)
                     }
                     .padding()
-                    
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        HStack(spacing: 10) {
-                            ForEach(products, id: \.id) {product in
-                                NavigationLink(destination: ProductDetailView(product: product)) {
-                                    ProductCardView(product: product)
-                                        .environmentObject(cartManager)
-                                }
-                            }
-                        }
-                        .padding(.horizontal)
-                    }
-                    
                     .onAppear {
                         fetchProducts()
                     }
@@ -77,8 +63,8 @@ struct HomePageView: View {
         APICaller.shared.getProducts { result in
             DispatchQueue.main.async {
                 switch result {
-                case .success(let fetchedProducts):
-                    self.products = fetchedProducts
+                case .success(let products):
+                    self.products = products
                     self.isLoading = false
                 case .failure(let error):
                     print("Error fetching products: \(error)")

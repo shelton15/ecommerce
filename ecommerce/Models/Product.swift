@@ -14,10 +14,10 @@ struct ProductDisplay: Codable {
 struct Product : Codable, Identifiable {
     
     let id: Int
-    let title: String
+    let title: String?
     let price: Double
-    let category: String
-    let description: String
-    let image: String
+    let category: String?
+    let description: String?
+    let image: String?
     
 }
