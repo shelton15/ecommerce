@@ -63,8 +63,8 @@ struct HomePageView: View {
         APICaller.shared.getProducts { result in
             DispatchQueue.main.async {
                 switch result {
-                case .success(let products):
-                    self.products = products
+                case .success(let fetchproducts):
+                    self.products = fetchproducts
                     self.isLoading = false
                 case .failure(let error):
                     print("Error fetching products: \(error)")

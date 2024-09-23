@@ -20,25 +20,38 @@ struct ProductDetailView: View {
                 VStack(alignment: .leading){
                     
                     ZStack(alignment: .topTrailing) {
-                        AsyncImage(url: URL(string: product.image)) { phase in
-                            if let image = phase.image {
+//                        AsyncImage(url: URL(string: product.image)) { phase in
+                        if let imageUrl = product.image, let url = URL(string: imageUrl) {
+                            
+                            AsyncImage(url: url) { image in
                                 image
                                     .resizable()
-                                    .ignoresSafeArea(edges: .top)
-                                    .frame(height: 300)
-                                    .cornerRadius(17)
-                            } else if phase.error != nil {
-                                Color.red
-                            } else {
-                                ProgressView()
+                                    
+                            } placeholder: {
+                                Color.gray
                             }
+                            .frame(width: 175, height: 160)
+                            .cornerRadius(17)
+                            
                         }
+//                            if let image = phase.image {
+//                                image
+//                                    .resizable()
+//                                    .ignoresSafeArea(edges: .top)
+//                                    .frame(height: 300)
+//                                    .cornerRadius(17)
+//                            } else if phase.error != nil {
+//                                Color.red
+//                            } else {
+//                                ProgressView()
+//                            }
+//                        }
                         
                     }
                     
                     VStack(alignment: .leading) {
                         HStack{
-                            Text(product.title)
+                            Text(product.title ?? "Unknown Title")
                                 .font(.title2 .bold())
                             
                             Spacer()
@@ -73,7 +86,7 @@ struct ProductDetailView: View {
                                 .font(.title3)
                                 .fontWeight(.medium)
                             
-                            Text(product.description)
+                            Text(product.description ?? "Unknown Description")
                         }
                     }
                     

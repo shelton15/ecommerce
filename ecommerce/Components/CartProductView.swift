@@ -16,23 +16,36 @@ struct CartProductView: View {
         
         HStack(spacing: 20) {
             
-            AsyncImage(url: URL(string: product.image)) { phase in
-                if let image = phase.image {
+//            AsyncImage(url: URL(string: product.image)) { phase in
+            if let imageUrl = product.image, let url = URL(string: imageUrl) {
+                
+                AsyncImage(url: url) { image in
                     image
                         .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 70)
-                        .cornerRadius(9)
-                } else if phase.error != nil {
-                    Color.red
-                } else {
-                    ProgressView()
+                        
+                } placeholder: {
+                    Color.gray
                 }
+                .frame(width: 175, height: 160)
+                .cornerRadius(17)
+                
             }
+//                if let image = phase.image {
+//                    image
+//                        .resizable()
+//                        .aspectRatio(contentMode: .fit)
+//                        .frame(width: 70)
+//                        .cornerRadius(9)
+//                } else if phase.error != nil {
+//                    Color.red
+//                } else {
+//                    ProgressView()
+//                }
+//            }
             
             HStack(spacing: 5) {
                 
-                Text(product.title)
+                Text(product.title ?? "Unknown Title")
                     .bold()
                 
                 Text("$\(product.price)")

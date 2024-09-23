@@ -24,21 +24,34 @@ struct ProductCardView: View {
                 VStack(alignment: .leading) {
                     
                     // Use AsyncImage for image loading from URL
-                    AsyncImage(url: URL(string: product.image)) { phase in
-                        if let image = phase.image {
+                    if let imageUrl = product.image, let url = URL(string: imageUrl) {
+                        
+                        AsyncImage(url: url) { image in
                             image
                                 .resizable()
-                                .frame(width: 175, height: 160)
-                                .cornerRadius(17)
-                        } else if phase.error != nil {
-                            Color.red
-                        } else {
-                            ProgressView()
+                                
+                        } placeholder: {
+                            Color.gray
                         }
+                        .frame(width: 175, height: 160)
+                        .cornerRadius(17)
+                        
                     }
+//                    AsyncImage(url: URL(string: product.image)) { phase in
+//                        if let image = phase.image {
+//                            image
+//                                .resizable()
+//                                .frame(width: 175, height: 160)
+//                                .cornerRadius(17)
+//                        } else if phase.error != nil {
+//                            Color.red
+//                        } else {
+//                            ProgressView()
+//                        }
+//                    }
 
                         
-                    Text(product.title)
+                    Text(product.title ?? "Unknown Title")
                         .font(.headline)
                         .foregroundColor(.black)
                         .padding(.vertical, 1)

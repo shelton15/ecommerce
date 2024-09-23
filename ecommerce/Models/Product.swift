@@ -21,3 +21,11 @@ struct Product : Codable, Identifiable {
     let image: String?
     
 }
+
+
+//let id: Int
+//let title: String
+//let price: Double
+//let category: String
+//let description: String
+//let image: String
