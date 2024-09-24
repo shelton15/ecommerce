@@ -26,7 +26,7 @@ class APICaller {
         guard let url = URL(string: "\(Constants.baseURL)/products") else {return}
         
         let config = URLSessionConfiguration.default
-        config.timeoutIntervalForRequest = 50.0
+        config.timeoutIntervalForRequest = 30.0
         let session = URLSession(configuration: config)
         
         let task = session.dataTask(with: URLRequest(url: url)) {data, _, error in
