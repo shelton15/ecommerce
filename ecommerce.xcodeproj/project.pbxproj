@@ -47,6 +47,7 @@
 		882A08212C98FA3A00597A72 /* CartButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartButtonView.swift; sourceTree = "<group>"; };
 		88C46EAD2C9ABCD800C01DE2 /* CartProductView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartProductView.swift; sourceTree = "<group>"; };
 		88C46EAF2C9B012F00C01DE2 /* CartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartView.swift; sourceTree = "<group>"; };
+		88D4A8E22CA3843600D87A27 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,6 +98,7 @@
 		882A08032C98AC9400597A72 /* ecommerce */ = {
 			isa = PBXGroup;
 			children = (
+				88D4A8E22CA3843600D87A27 /* Info.plist */,
 				8823F5642C99E06000F7D8E5 /* Managers */,
 				882A081A2C98E32000597A72 /* Components */,
 				882A08172C98DE9500597A72 /* Models */,
@@ -355,9 +357,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"ecommerce/Preview Content\"";
-				DEVELOPMENT_TEAM = VF4RT73AQB;
+				DEVELOPMENT_TEAM = Q4VF449KQ4;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ecommerce/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -384,9 +387,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"ecommerce/Preview Content\"";
-				DEVELOPMENT_TEAM = VF4RT73AQB;
+				DEVELOPMENT_TEAM = Q4VF449KQ4;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ecommerce/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
