@@ -6,11 +6,6 @@
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
-		<key>NSExceptionDomains</key>
-		<dict>
-			<key>com.sheltech.ecommerce</key>
-			<string></string>
-		</dict>
 	</dict>
 </dict>
 </plist>
