@@ -10,7 +10,7 @@ import SwiftUI
 @main
 struct ecommerceApp: App {
     
-    @StateObject var cartManager = CartManager()
+//    @StateObject var cartManager = CartManager()
     
     let persistenceController = PersistenceController.shared
 
@@ -18,7 +18,7 @@ struct ecommerceApp: App {
         WindowGroup {
             ContentView()
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
-                .environmentObject(cartManager)
+//                .environmentObject(cartManager)
         }
     }
 }

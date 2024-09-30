@@ -10,7 +10,7 @@ import CoreData
 
 struct ContentView: View {
     
-    @StateObject var cartManager = CartManager()
+//    @StateObject var cartManager = CartManager()
     
     @State var currentTab: Tab = .Home
     
@@ -23,8 +23,10 @@ struct ContentView: View {
     var body: some View {
         TabView(selection: $currentTab) {
             
-           HomePageView()
-                .environmentObject(cartManager)
+            EventsView()
+            
+//           HomePageView()
+//                .environmentObject(cartManager)
             
             Text("Search View")
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -105,7 +107,7 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
-            .environmentObject(CartManager())
+//            .environmentObject(CartManager())
     }
 }
 
