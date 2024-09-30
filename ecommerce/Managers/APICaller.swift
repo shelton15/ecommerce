@@ -7,45 +7,78 @@
 
 import Foundation
 
-struct Constants {
-    static let baseURL = "https://fakestoreapi.com"
-}
+//struct Constants {
+//    static let baseURL = "https://wazupapp.com/list_restaurant_event"
+//    static let token = "dfnodfdfbnfbdbfb465df4151d65fd65f415641df516"
+//}
 
-enum APIError: Error {
-    
-    case failedTogetData
-    
-}
+//enum APIError: Error {
+//
+//    case failedTogetData
+//
+//}
 
 class APICaller {
     
     static let shared = APICaller()
     
-    func getProducts(completion: @escaping (Result<[Product], Error>) -> Void) {
+    private let baseURL = "https://wazupapp.com/list_restaurant_event"
+    private let token = "dfnodfdfbnfbdbfb465df4151d65fd65f415641df516"
+    
+    func getEvents(completion: @escaping (Result<[Event], Error>) -> Void) {
         
-        guard let url = URL(string: "\(Constants.baseURL)/products") else {return}
+        guard let url = URL(string: baseURL) else {
+            print("Invalid URL")
+            return
+        }
         
-        let config = URLSessionConfiguration.default
-        config.timeoutIntervalForRequest = 30.0
-        let session = URLSession(configuration: config)
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         
-        let task = session.dataTask(with: URLRequest(url: url)) {data, _, error in
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
             guard let data = data, error == nil else {
-                completion(.failure(APIError.failedTogetData))
+                completion(.failure(error!))
                 return
             }
             
             do {
-                let results = try JSONDecoder().decode(ProductDisplay.self, from: data)
-                completion(.success(results.results))
                 
+                let events = try JSONDecoder().decode([Event].self, from: data)
+                completion(.success(events))
             } catch {
-                completion(.failure(APIError.failedTogetData))
+                completion(.failure(error))
             }
-            
         }
-        
         task.resume()
         
     }
+    
+//    func getProducts(completion: @escaping (Result<[Product], Error>) -> Void) {
+//
+//        guard let url = URL(string: "\(Constants.baseURL)/products") else {return}
+//
+//        let config = URLSessionConfiguration.default
+//        config.timeoutIntervalForRequest = 30.0
+//        let session = URLSession(configuration: config)
+//
+//        let task = session.dataTask(with: URLRequest(url: url)) {data, _, error in
+//            guard let data = data, error == nil else {
+////                completion(.failure(APIError.failedTogetData))
+//                return
+//            }
+//
+//            do {
+//                let results = try JSONDecoder().decode(ProductDisplay.self, from: data)
+//                completion(.success(results.results))
+//
+//            } catch {
+//                completion(.failure(APIError.failedTogetData))
+//            }
+//
+//        }
+//
+//        task.resume()
+//
+//    }
 }
