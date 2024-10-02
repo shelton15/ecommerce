@@ -50,7 +50,7 @@ class APICaller {
             do {
                 let errorResponse = try JSONDecoder().decode(APIErrorResponse.self, from: data)
                 print("API Error: \(errorResponse.message)")
-                completion(.failure(error))
+                completion(.failure(error!))
             } catch {
                 
             }
