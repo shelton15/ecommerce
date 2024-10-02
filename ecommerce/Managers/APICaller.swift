@@ -42,11 +42,25 @@ class APICaller {
                 return
             }
             
+            //print json data
+            if let jsonString = String(data: data, encoding: .utf8) {
+                print("JSON Response: \(jsonString)")
+            }
+            
+            do {
+                let errorResponse = try JSONDecoder().decode(APIErrorResponse.self, from: data)
+                print("API Error: \(errorResponse.message)")
+                completion(.failure(error))
+            } catch {
+                
+            }
+            
             do {
                 
                 let events = try JSONDecoder().decode([Event].self, from: data)
                 completion(.success(events))
             } catch {
+                print("Decoding Error: \(error)")
                 completion(.failure(error))
             }
         }
@@ -81,4 +95,10 @@ class APICaller {
 //        task.resume()
 //
 //    }
+}
+
+struct APIErrorResponse: Codable {
+    
+    let status: String
+    let message: String
 }
