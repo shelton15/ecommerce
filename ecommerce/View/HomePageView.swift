@@ -238,7 +238,7 @@ struct EventDetailView: View {
                 // reservation button if allowed
                 if restaurant.allowReservation == "click" {
                     Button(action: {
-                        
+                        //button action
                     }) {
                         Text("Make Reservation")
                             .font(.headline)
