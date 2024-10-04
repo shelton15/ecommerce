@@ -135,17 +135,9 @@ struct EventsView: View {
                 } else if let errorMessage = errorMessage {
                     Text("Error: \(errorMessage)")
                 } else {
-                    List(restaurants, id: \.title) { restaurant in
+                    List(restaurants, id: \.id) { restaurant in
                         NavigationLink(destination: EventDetailView(restaurant: restaurant)) {
-                            HStack {
-                                // show restaurant title
-                                VStack(alignment: .leading) {
-                                    Text(restaurant.title)
-                                        .font(.headline)
-                                    Text(restaurant.localisation.city)
-                                        .font(.subheadline)
-                                }
-                            }
+                            RestaurantRow(restaurant: restaurant)
                         }
                     }
                 }
@@ -178,79 +170,66 @@ struct EventsView: View {
     
 }
 
+struct RestaurantRow: View {
+    let restaurant: Restaurant
+    
+    var body: some View {
+        HStack {
+            if let imageURL = URL(string: restaurant.files.first?.link ?? "") {
+                AsyncImage(url: imageURL)
+                    .frame(width: 50, height: 50)
+                    .clipShape(Circle())
+            }
+            VStack(alignment: .leading) {
+                Text(restaurant.title)
+                    .font(.headline)
+                Text(restaurant.location.country)
+                    .font(.subheadline)
+            }
+        }
+    }
+}
+
 struct EventDetailView: View {
     let restaurant: Restaurant
     
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: 16) {
+            VStack(alignment: .leading, spacing: 20) {
                 // display images
-                ForEach(restaurant.files, id: \.link) { file in
-                    if file.typeOfFile == "image" {
-                        AsyncImage(url: URL(string: file.link)) { phase in
-                            switch phase {
-                            case .empty:
-                                ProgressView()
-                                
-                            case .success(let image):
-                                image
-                                    .resizable()
-                                    .scaledToFit()
-                            case .failure:
-                                Image(systemName: "photo")
-                                    .resizable()
-                                    .scaledToFit()
-                            @unknown default:
-                                EmptyView()
-                            }
-                        }
-                        .frame(height: 200)
-                    }
+                if let imageURL = URL(string: restaurant.files.first?.link ?? "") {
+                    AsyncImage(url: imageURL)
+                        .frame(height: 300)
+                        .cornerRadius(10)
+                        .padding()
                 }
                 
                 // restaurant title
                 Text(restaurant.title)
-                    .font(.title)
+                    .font(.largeTitle)
                     .fontWeight(.bold)
+                    .padding([.leading, .trailing])
                 
                 // restau description
                 Text(restaurant.description)
                     .font(.body)
+                    .padding([.leading, .trailing])
                 
                 //restau location
-                VStack(alignment: .leading, spacing: 4) {
-                    Text("Location: \(restaurant.localisation.city), \(restaurant.localisation.country)")
-                    Text("Headquarters: \(restaurant.localisation.headquarters)")
-                    Text("Latitude: \(restaurant.localisation.latitude)")
-                    Text("Longitude: \(restaurant.localisation.longitude)")
+                HStack {
+                    Text("Location: ")
+                        .fontWeight(.bold)
+                    Text("\(restaurant.location.city), \(restaurant.location.country)")
                 }
-                .font(.subheadline)
+                .padding([.leading, .trailing])
                 
-                //restau rates and details
-                VStack(alignment: .leading, spacing: 4) {
-                    Text("Rate: \(restaurant.rate)")
-                    Text("Likes: \(restaurant.likes)")
-                    Text("Comments: \(restaurant.comments)")
-                    Text("Followers: \(restaurant.followers)")
+                HStack {
+                    Text("Followers: ")
+                        .fontWeight(.bold)
+                    Text("\(restaurant.followers)")
                 }
-                .font(.subheadline)
                 
-                // reservation button if allowed
-                if restaurant.allowReservation == "click" {
-                    Button(action: {
-                        //button action
-                    }) {
-                        Text("Make Reservation")
-                            .font(.headline)
-                            .padding()
-                            .frame(maxWidth: .infinity)
-                            .background(Color.blue)
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
-                    }
-                }
             }
-            .padding()
             .navigationTitle(restaurant.title)
         }
     }
