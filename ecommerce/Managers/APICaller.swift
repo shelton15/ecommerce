@@ -23,7 +23,7 @@ class APICaller {
     static let shared = APICaller()
     
     private let baseURL = "https://wazupapp.com/list_restaurant_event"
-    private let token = "dfnodfdfbnfbdbfb465df4151d65fd65f415641df516"
+//    private let token = "dfnodfdfbnfbdbfb465df4151d65fd65f415641df516"
     
     func getEvents(completion: @escaping (Result<[Event], Error>) -> Void) {
         
@@ -33,8 +33,8 @@ class APICaller {
         }
         
         var request = URLRequest(url: url)
-        request.httpMethod = "GET"
-        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+//        request.httpMethod = "GET"
+        request.setValue("dfnodfdfbnfbdbfb465df4151d65fd65f415641df516", forHTTPHeaderField: "Token")
         
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             guard let data = data, error == nil else {
