@@ -122,56 +122,37 @@ import SwiftUI
 
 struct EventsView: View {
     
-    @State private var events: [Event] = []
-    @State private var errorMessage: IdentifiableError?
+    @State private var restaurants: [Restaurant] = []
+    @State private var isLoading = true //loading state
+    @State private var errorMessage: String? = nil //error message state
     var body: some View {
         
         NavigationView {
             
-            List(events) {event in
-                NavigationLink(destination: EventDetailView(event: event)) {
-                    
-                    HStack(alignment: .top, spacing: 10) {
-                        if let imageUrl = event.image, let url = URL(string: imageUrl) {
-                            AsyncImage(url: url) { image in
-                                image
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fill)
-                                    .frame(width: 60, height: 60)
-                                    .cornerRadius(8)
-                            } placeholder: {
-                                ProgressView()
+            Group {
+                if isLoading {
+                    ProgressView("Loading events...")
+                } else if let errorMessage = errorMessage {
+                    Text("Error: \(errorMessage)")
+                } else {
+                    List(restaurants, id: \.title) { restaurant in
+                        NavigationLink(destination: EventDetailView(restaurant: restaurant)) {
+                            HStack {
+                                // show restaurant title
+                                VStack(alignment: .leading) {
+                                    Text(restaurant.title)
+                                        .font(.headline)
+                                    Text(restaurant.localisation.city)
+                                        .font(.subheadline)
+                                }
                             }
-                        } else {
-                            Image(systemName: "photo")
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                                .frame(width: 60, height: 60)
-                                .cornerRadius(8)
-                                .foregroundColor(.gray)
-                        }
-                        
-                        VStack(alignment: .leading, spacing: 5) {
-                            Text(event.name)
-                                .font(.headline)
-                            
-                            Text(event.date)
-                                .font(.subheadline)
-                            
-                            Text(event.location)
-                                .font(.caption)
-                                .foregroundColor(.secondary)
                         }
                     }
-                    
                 }
             }
             .navigationTitle("Events")
             .onAppear {
-                fetchEvents()
-            }
-            .alert(item: $errorMessage) { error in
-                Alert(title: Text("Error"), message: Text(error.message), dismissButton: .default(Text("OK")))
+                fetchEvents() // fetch the restaurants on view load
             }
             
         }
@@ -184,9 +165,11 @@ struct EventsView: View {
             DispatchQueue.main.async {
                 switch result {
                 case .success(let events):
-                    self.events = events
+                    self.restaurants = events
+                    self.isLoading = false
                 case .failure(let error):
-                    self.errorMessage = IdentifiableError(message: error.localizedDescription)
+                    self.errorMessage = error.localizedDescription
+                    self.isLoading = false
                 }
             }
         }
@@ -196,49 +179,80 @@ struct EventsView: View {
 }
 
 struct EventDetailView: View {
-    var event: Event
-
+    let restaurant: Restaurant
+    
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: 20) {
-                // Display the event image
-                if let imageUrl = event.image, let url = URL(string: imageUrl) {
-                    AsyncImage(url: url) { image in
-                        image
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .frame(height: 200)
-                            .clipped()
-                    } placeholder: {
-                        ProgressView()
+            VStack(alignment: .leading, spacing: 16) {
+                // display images
+                ForEach(restaurant.files, id: \.link) { file in
+                    if file.typeOfFile == "image" {
+                        AsyncImage(url: URL(string: file.link)) { phase in
+                            switch phase {
+                            case .empty:
+                                ProgressView()
+                                
+                            case .success(let image):
+                                image
+                                    .resizable()
+                                    .scaledToFit()
+                            case .failure:
+                                Image(systemName: "photo")
+                                    .resizable()
+                                    .scaledToFit()
+                            @unknown default:
+                                EmptyView()
+                            }
+                        }
+                        .frame(height: 200)
                     }
                 }
-
-                VStack(alignment: .leading, spacing: 10) {
-                    Text(event.name)
-                        .font(.title)
-                        .bold()
-
-                    Text("Date: \(event.date)")
-                        .font(.subheadline)
-
-                    Text("Location: \(event.location)")
-                        .font(.subheadline)
-
-                    if let description = event.description {
-                        Text(description)
-                            .font(.body)
-                            .padding(.top)
-                    } else {
-                        Text("No description available.")
-                            .font(.body)
-                            .italic()
+                
+                // restaurant title
+                Text(restaurant.title)
+                    .font(.title)
+                    .fontWeight(.bold)
+                
+                // restau description
+                Text(restaurant.description)
+                    .font(.body)
+                
+                //restau location
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("Location: \(restaurant.localisation.city), \(restaurant.localisation.country)")
+                    Text("Headquarters: \(restaurant.localisation.headquarters)")
+                    Text("Latitude: \(restaurant.localisation.latitude)")
+                    Text("Longitude: \(restaurant.localisation.longitude)")
+                }
+                .font(.subheadline)
+                
+                //restau rates and details
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("Rate: \(restaurant.rate)")
+                    Text("Likes: \(restaurant.likes)")
+                    Text("Comments: \(restaurant.comments)")
+                    Text("Followers: \(restaurant.followers)")
+                }
+                .font(.subheadline)
+                
+                // reservation button if allowed
+                if restaurant.allowReservation == "click" {
+                    Button(action: {
+                        
+                    }) {
+                        Text("Make Reservation")
+                            .font(.headline)
+                            .padding()
+                            .frame(maxWidth: .infinity)
+                            .background(Color.blue)
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
                     }
                 }
-                .padding()
             }
+            .padding()
+            .navigationTitle(restaurant.title)
         }
-        .navigationTitle(event.name)
     }
 }
 
