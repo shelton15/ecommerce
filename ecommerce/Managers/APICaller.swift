@@ -25,7 +25,7 @@ class APICaller {
     private let baseURL = "https://wazupapp.com/list_restaurant_event"
 //    private let token = "dfnodfdfbnfbdbfb465df4151d65fd65f415641df516"
     
-    func getEvents(completion: @escaping (Result<[Restaurant], Error>) -> Void) {
+    func getEvents(completion: @escaping (Result<[Content], Error>) -> Void) {
         
         guard let url = URL(string: baseURL) else {
             print("Invalid URL")
@@ -57,7 +57,7 @@ class APICaller {
             
             do {
                 
-                let events = try JSONDecoder().decode([Restaurant].self, from: data)
+                let events = try JSONDecoder().decode([Content].self, from: data)
                 completion(.success(events))
             } catch {
                 print("Decoding Error: \(error)")

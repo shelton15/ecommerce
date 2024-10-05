@@ -23,7 +23,7 @@ struct ContentView: View {
     var body: some View {
         TabView(selection: $currentTab) {
             
-            EventsView()
+            EventView()
             
 //           HomePageView()
 //                .environmentObject(cartManager)

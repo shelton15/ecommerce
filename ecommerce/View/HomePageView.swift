@@ -120,124 +120,87 @@ import SwiftUI
 //    }
 //}
 
-struct EventsView: View {
+struct EventView: View {
+    @State private var events: [Content] = []
     
-    @State private var restaurants: [Restaurant] = []
-    @State private var isLoading = true //loading state
-    @State private var errorMessage: String? = nil //error message state
     var body: some View {
-        
         NavigationView {
-            
-            Group {
-                if isLoading {
-                    ProgressView("Loading events...")
-                } else if let errorMessage = errorMessage {
-                    Text("Error: \(errorMessage)")
-                } else {
-                    List(restaurants, id: \.id) { restaurant in
-                        NavigationLink(destination: EventDetailView(restaurant: restaurant)) {
-                            RestaurantRow(restaurant: restaurant)
-                        }
-                    }
+            List(events, id: \.id) { event in
+                NavigationLink(destination: EventDetailView(event: event)) {
+                    Text(event.title)
                 }
             }
             .navigationTitle("Events")
             .onAppear {
-                fetchEvents() // fetch the restaurants on view load
+                fetchEvents()
             }
-            
         }
-        
     }
     
     private func fetchEvents() {
-        
         APICaller.shared.getEvents { result in
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let events):
-                    self.restaurants = events
-                    self.isLoading = false
-                case .failure(let error):
-                    self.errorMessage = error.localizedDescription
-                    self.isLoading = false
+            switch result {
+            case .success(let content):
+                DispatchQueue.main.async {
+                    self.events = content
                 }
+            case .failure(let error):
+                print("Error: \(error.localizedDescription)")
             }
         }
-        
     }
-    
 }
 
-struct RestaurantRow: View {
-    let restaurant: Restaurant
-    
-    var body: some View {
-        HStack {
-            if let imageURL = URL(string: restaurant.files.first?.link ?? "") {
-                AsyncImage(url: imageURL)
-                    .frame(width: 50, height: 50)
-                    .clipShape(Circle())
-            }
-            VStack(alignment: .leading) {
-                Text(restaurant.title)
-                    .font(.headline)
-                Text(restaurant.localisation.country)
-                    .font(.subheadline)
-            }
-        }
-    }
-}
 
 struct EventDetailView: View {
-    let restaurant: Restaurant
+    var event: Content
     
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: 20) {
-                // display images
-                if let imageURL = URL(string: restaurant.files.first?.link ?? "") {
-                    AsyncImage(url: imageURL)
-                        .frame(height: 300)
-                        .cornerRadius(10)
-                        .padding()
-                }
-                
-                // restaurant title
-                Text(restaurant.title)
+            VStack(alignment: .leading, spacing: 16) {
+                Text(event.title)
                     .font(.largeTitle)
-                    .fontWeight(.bold)
-                    .padding([.leading, .trailing])
+                    .bold()
+                    .padding(.top)
                 
-                // restau description
-                Text(restaurant.description)
+                if let imageUrl = URL(string: "https://wazupapp.com/list_restaurant_event\(event.files.first?.link ?? "")") {
+                    AsyncImage(url: imageUrl) { phase in
+                        if let image = phase.image {
+                            image
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(maxWidth: .infinity)
+                        } else if phase.error != nil {
+                            Text("Failed to load image")
+                        } else {
+                            ProgressView()
+                        }
+                    }
+                }
+                
+                Text(event.description)
                     .font(.body)
-                    .padding([.leading, .trailing])
+                    .padding(.top, 10)
                 
-                //restau location
-                HStack {
-                    Text("Location: ")
-                        .fontWeight(.bold)
-                    Text("\(restaurant.localisation.city), \(restaurant.localisation.country)")
-                }
-                .padding([.leading, .trailing])
+                // Display tags
+                let tags = event.tags.map { $0.name }.joined(separator: ", ")
+                Text("Tags: \(tags)")
+                    .font(.subheadline)
+                    .foregroundColor(.gray)
                 
-                HStack {
-                    Text("Followers: ")
-                        .fontWeight(.bold)
-                    Text("\(restaurant.followers)")
-                }
-                
+                Spacer()
             }
-            .navigationTitle(restaurant.title)
+            .padding()
         }
+        .navigationTitle("Event Details")
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 
+
 struct EventsView_Preview: PreviewProvider {
     static var previews: some View {
-        EventsView()
+        EventView()
     }
 }
 
