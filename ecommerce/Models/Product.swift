@@ -7,7 +7,8 @@
 
 import Foundation
 
-struct Restaurant: Codable {
+struct Restaurant: Codable, Identifiable {
+    
     let is_home: Bool
     let id: Int
     let title: String
@@ -15,7 +16,7 @@ struct Restaurant: Codable {
     let prices: [Prices]?
     let localisation: [Localisation]
     let files: [Files]
-    let tags: [Tags]
+    let tags: [Tags]?
     let description: String
     let likes: Int
     let shares: Int
@@ -27,12 +28,10 @@ struct Restaurant: Codable {
     let available_places: Int
     let apiVersion: String
     
-    enum CodingKeys: String, CodingKey {
-        case apiVersion = "api_version"
-    }
 }
 
 struct User: Codable {
+    
     let vip: Bool
     let follower: Bool
     let like: Bool
@@ -44,6 +43,7 @@ struct Tags: Codable {
 }
 
 struct Files: Codable {
+    
     let link: String
     let typeOfFile: FileType
     
