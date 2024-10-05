@@ -7,16 +7,16 @@
 
 import Foundation
 
-struct Restaurant: Codable, Identifiable {
+struct Restaurant: Codable {
     
     let is_home: Bool
     let id: Int
     let title: String
     let pro_account: ProAccount
-    let prices: [Prices]?
+    let prices: [Prices]
     let localisation: [Localisation]
     let files: [Files]
-    let tags: [Tags]?
+    let tags: [Tags]
     let description: String
     let likes: Int
     let shares: Int

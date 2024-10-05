@@ -183,7 +183,7 @@ struct RestaurantRow: View {
             VStack(alignment: .leading) {
                 Text(restaurant.title)
                     .font(.headline)
-                Text(restaurant.location.country)
+                Text(restaurant.localisation.country)
                     .font(.subheadline)
             }
         }
@@ -219,7 +219,7 @@ struct EventDetailView: View {
                 HStack {
                     Text("Location: ")
                         .fontWeight(.bold)
-                    Text("\(restaurant.location.city), \(restaurant.location.country)")
+                    Text("\(restaurant.localisation.city), \(restaurant.localisation.country)")
                 }
                 .padding([.leading, .trailing])
                 
