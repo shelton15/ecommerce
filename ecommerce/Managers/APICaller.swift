@@ -23,7 +23,7 @@ class APICaller {
     static let shared = APICaller()
     
     private let baseURL = "https://wazupapp.com/list_restaurant_event"
-//    private let token = "dfnodfdfbnfbdbfb465df4151d65fd65f415641df516"
+    private let token = "dfnodfdfbnfbdbfb465df4151d65fd65f415641df516"
     
     func getEvents(completion: @escaping (Result<[Content], Error>) -> Void) {
         
@@ -33,35 +33,46 @@ class APICaller {
         }
         
         var request = URLRequest(url: url)
-//        request.httpMethod = "GET"
-        request.setValue("dfnodfdfbnfbdbfb465df4151d65fd65f415641df516", forHTTPHeaderField: "Token")
+        request.httpMethod = "GET"
+        request.setValue(token, forHTTPHeaderField: "Token")
         
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            guard let data = data, error == nil else {
-                completion(.failure(error!))
+            
+            
+            //Handle error scenario
+            if let error = error {
+                
+                print("Failed to fetch data: \(error)")
+                completion(.failure(error))
                 return
+                
             }
             
-            //print json data
-            if let jsonString = String(data: data, encoding: .utf8) {
-                print("JSON Response: \(jsonString)")
-            }
-            
-            do {
-                let errorResponse = try JSONDecoder().decode(ApiResponse.self, from: data)
-                print("API Error: \(errorResponse.message)")
-                completion(.failure(error!))
-            } catch {
+            guard let data = data else {
+                
+                print("No data returned")
+                completion(.failure(NSError(domain: "NoData", code: -1, userInfo: nil)))
+                return
                 
             }
             
             do {
+                
+                if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode != 200 {
+                    let errorResponse = try JSONDecoder().decode(ApiResponse.self, from: data)
+                    print("API Error: \(errorResponse.message)")
+                    completion(.failure(NSError(domain: "APIError", code: httpResponse.statusCode, userInfo: [NSLocalizedDescriptionKey: errorResponse.message])))
+                    return
+                }
                 
                 let events = try JSONDecoder().decode([Content].self, from: data)
                 completion(.success(events))
+                
             } catch {
+                
                 print("Decoding Error: \(error)")
                 completion(.failure(error))
+                
             }
         }
         task.resume()
