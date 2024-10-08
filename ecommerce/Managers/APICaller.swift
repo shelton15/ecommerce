@@ -58,15 +58,9 @@ class APICaller {
             
             do {
                 
-                if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode != 200 {
-                    let errorResponse = try JSONDecoder().decode(ApiResponse.self, from: data)
-                    print("API Error: \(errorResponse.message)")
-                    completion(.failure(NSError(domain: "APIError", code: httpResponse.statusCode, userInfo: [NSLocalizedDescriptionKey: errorResponse.message])))
-                    return
-                }
-                
-                let events = try JSONDecoder().decode([Content].self, from: data)
-                completion(.success(events))
+                //decode respnse as a dictionary
+                let decodedResponse = try JSONDecoder().decode(ApiResponse.self, from: data)
+                completion(.success(decodedResponse.content))
                 
             } catch {
                 
