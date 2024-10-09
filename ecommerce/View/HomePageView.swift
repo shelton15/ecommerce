@@ -163,7 +163,7 @@ struct EventDetailView: View {
                     .bold()
                     .padding(.top)
                 
-                if let imageUrl = URL(string: "https://wazupapp.com/list_restaurant_event\(event.files.first?.link ?? "")") {
+                if let imageUrl = URL(string: "https://wazupapp.com\(event.files.first?.link ?? "")") {
                     AsyncImage(url: imageUrl) { phase in
                         if let image = phase.image {
                             image
