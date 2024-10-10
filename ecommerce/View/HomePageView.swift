@@ -163,19 +163,48 @@ struct EventDetailView: View {
                     .bold()
                     .padding(.top)
                 
-                if let imageUrl = URL(string: "https://wazupapp.com\(event.files.first?.link ?? "")") {
-                    AsyncImage(url: imageUrl) { phase in
-                        if let image = phase.image {
-                            image
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(maxWidth: .infinity)
-                        } else if phase.error != nil {
-                            Text("Failed to load image")
-                        } else {
-                            ProgressView()
+                //check if there are any image files
+                if event.files.contains(where: { $0.typeOfFile == "image" }) {
+                    
+                    //swipeable image gallery using tabview
+                    TabView {
+                        
+                        ForEach(event.files.filter { $0.typeOfFile == "image"}, id: \.link) { file in
+                            
+                            if let imageUrl = URL(string: file.link) {
+                                
+                                AsyncImage(url: imageUrl) { phase in
+                                    
+                                    switch phase {
+                                        
+                                    case .success(let image):
+                                        image
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fit)
+                                            .frame(maxWidth: .infinity, maxHeight: 300)
+                                        
+                                    case .failure:
+                                        Text("Failed to load image")
+                                            .foregroundColor(.red)
+                                    
+                                    case .empty:
+                                        ProgressView()
+                                    
+                                    @unknown default:
+                                        EmptyView()
+                                    }
+                                }
+                                .frame(maxWidth: .infinity, maxHeight: 300)
+                            }
                         }
                     }
+                    .tabViewStyle(PageTabViewStyle(indexDisplayMode: .automatic)) //enables swiping
+                    .frame(height: 300) //set height of tabview to match image height
+                } else {
+                    
+                    //display if there is no available images
+                    Text("No images available")
+                        .foregroundColor(.red)
                 }
                 
                 Text(event.description)
