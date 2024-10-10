@@ -171,7 +171,7 @@ struct EventDetailView: View {
                         
                         ForEach(event.files.filter { $0.typeOfFile == "image"}, id: \.link) { file in
                             
-                            if let imageUrl = URL(string: file.link) {
+                            if let imageUrl = URL(string: "https://wazupapp.com\(file.link)") {
                                 
                                 AsyncImage(url: imageUrl) { phase in
                                     
