@@ -198,7 +198,7 @@ struct EventDetailView: View {
                             }
                         }
                     }
-                    .tabViewStyle(PageTabViewStyle(indexDisplayMode: .automatic)) //enables swiping
+                    .tabViewStyle(PageTabViewStyle(indexDisplayMode: .always)) //enables swiping
                     .frame(height: 300) //set height of tabview to match image height
                 } else {
                     
